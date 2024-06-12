@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"errors"
 	"log"
-	"os"
 
 	"github.com/javierdelapuente/test-go-12-factor/config"
 )
@@ -18,7 +17,8 @@ func (s *Service) CheckMysqlStatus() (err error) {
 }
 
 func (s *Service) CheckPostgresqlStatus() (err error) {
-	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
+	// This can result in a pointer dereference
+	db, err := sql.Open("pgx", *s.CharmConfig.Integrations.PostgresqlUrl)
 	if err != nil {
 		return
 	}

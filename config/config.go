@@ -1,5 +1,9 @@
 package config
 
+import (
+	"strings"
+)
+
 // Just some ideas. It maybe better, instead of having a Config as a
 // Name/Value, to really have the Config structure generated, and have
 // the environment variable names as variables in Go.
@@ -10,6 +14,31 @@ package config
 // Here a simple example to put env things into structs:
 //https://github.com/02amanag/environment/blob/main/environment.go
 
+func BuildCharmConfig(environ []string) (config CharmConfig) {
+	// TODO done in a simple way. Maybe using struct tags like `env: NAME` or
+	// any other idea?
+
+	var vars map[string]string = make(map[string]string)
+	for _, fullvar := range environ {
+		name, value, found := strings.Cut(fullvar, "=")
+		if found {
+			vars[name] = value
+		}
+	}
+
+	if val, ok := vars["POSTGRESQL_DB_CONNECT_STRING"]; ok {
+		config.Integrations.PostgresqlUrl = &val
+		delete(vars, "POSTGRESQL_DB_CONNECT_STRING")
+	}
+
+	// Put all variables in Configs for now.
+	for name, value := range vars {
+		config.Configs = append(config.Configs, Config{Name: name, Value: value})
+	}
+
+	return
+}
+
 type CharmConfig struct {
 	Configs      []Config
 	Integrations Integrations
@@ -17,7 +46,7 @@ type CharmConfig struct {
 
 type Config struct {
 	Name  string
-	Value *string
+	Value string
 }
 
 type Integrations struct {

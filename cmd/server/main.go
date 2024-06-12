@@ -85,6 +85,7 @@ func (h mainHandler) serveConfig(w http.ResponseWriter, r *http.Request) {
 func (h mainHandler) serveMysql(w http.ResponseWriter, r *http.Request) {
 	err := h.service.CheckMysqlStatus()
 	if err != nil {
+		log.Printf(err.Error())
 		io.WriteString(w, "FAILURE")
 		return
 	} else {
@@ -133,18 +134,19 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	val1 := "val1"
 	// build manually for now.
-	charmConfig := config.CharmConfig{
-		// Configs: []{config.Config{
-		// 	Name: "a",
-		// 	Value: nil,}},
-		Configs: []config.Config{
-			{Name: "name1", Value: &val1},
-			{Name: "name2"},
-		},
-		Integrations: config.Integrations{},
-	}
+	// val1 := "val1"
+	// charmConfig := config.CharmConfig{
+	// 	// Configs: []{config.Config{
+	// 	// 	Name: "a",
+	// 	// 	Value: nil,}},
+	// 	Configs: []config.Config{
+	// 		{Name: "name1", Value: &val1},
+	// 		{Name: "name2"},
+	// 	},
+	// 	Integrations: config.Integrations{},
+	// }
+	charmConfig := config.BuildCharmConfig(os.Environ())
 	mainHandler := mainHandler{
 		counter:     requestCounter,
 		charmConfig: charmConfig,
