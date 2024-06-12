@@ -1,0 +1,1 @@
+React example comes from chapter 5 of: https://github.com/MoonHighway/learning-react

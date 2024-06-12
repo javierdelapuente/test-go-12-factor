@@ -1,0 +1,23 @@
+name: testgoreact
+title: testgoreact
+version: '0.1'
+summary: testgoreact
+description: |
+  Test
+base: bare
+build-base: ubuntu@22.04
+license: Apache-2.0
+run-user: _daemon_
+platforms:
+  amd64:
+
+
+parts:
+  go-framework/install-app:
+    plugin: go
+    source-type: local
+    source: .
+    stage:
+    - bin/server
+    build-snaps:
+    - go

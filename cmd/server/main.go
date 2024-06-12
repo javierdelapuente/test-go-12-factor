@@ -165,6 +165,8 @@ func main() {
 	mux.HandleFunc("/redis/status", mainHandler.notImplemented)
 
 	server := &http.Server{
+		// TODO Should the port be in config?
+		// Maybe create a NewServer function that also creates the handlers?
 		Addr:    ":8080",
 		Handler: mux,
 	}
