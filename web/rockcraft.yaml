@@ -4,8 +4,7 @@ version: '0.1'
 summary: testgoreact
 description: |
   Test
-base: bare
-build-base: ubuntu@22.04
+base: ubuntu@24.04
 license: Apache-2.0
 run-user: _daemon_
 platforms:
@@ -18,6 +17,16 @@ parts:
     source-type: local
     source: .
     stage:
-    - bin/server
+    # it looks this is the default name?
+    - bin/web
     build-snaps:
     - go
+
+services:
+  server:
+    override: replace
+    command: /bin/web
+    startup: enabled
+    user: _daemon_
+    environment:
+      POSTGRESQL_DB_CONNECT_STRING: 'postgresql://testusername:testpassword@10.12.97.144:5432/testdatabase'
