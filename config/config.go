@@ -2,7 +2,12 @@ package config
 
 import (
 	"strings"
+
+	// needed for the charm generator
+	_ "gopkg.in/yaml.v2"
 )
+
+//go:generate go run config_charm_generator.go
 
 // Just some ideas. It maybe better, instead of having a Config as a
 // Name/Value, to really have the Config structure generated, and have
@@ -10,9 +15,6 @@ import (
 
 // Pending to think how to generate this file (and the code to
 // load it from env variables)
-
-// Here a simple example to put env things into structs:
-//https://github.com/02amanag/environment/blob/main/environment.go
 
 func BuildCharmConfig(environ []string) (config CharmConfig) {
 	// TODO done in a simple way. Maybe using struct tags like `env: NAME` or
@@ -36,11 +38,16 @@ func BuildCharmConfig(environ []string) (config CharmConfig) {
 		config.Configs = append(config.Configs, Config{Name: name, Value: value})
 	}
 
+	// Here a trivial example to put env things into structs:
+	// https://github.com/02amanag/environment/blob/main/environment.go
+	// TODO FILL CONFIGCHARM FROM THE GENERATED FILE
+
 	return
 }
 
 type CharmConfig struct {
 	Configs      []Config
+	ConfigCharm  ConfigCharm // Generated name.
 	Integrations Integrations
 }
 
