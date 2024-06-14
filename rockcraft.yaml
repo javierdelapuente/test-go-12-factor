@@ -22,6 +22,9 @@ parts:
     - CGO_ENABLED: "0"
     build-snaps:
     - go
+    go-generate:
+      - ./config/config.go
+
 services:
   server:
     override: replace

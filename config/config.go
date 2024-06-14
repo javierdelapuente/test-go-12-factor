@@ -3,7 +3,8 @@ package config
 import (
 	"strings"
 
-	// needed for the charm generator
+	// needed for the charm generator.
+	// TODO SEE HOW NOT TO INCLUDE THIS IN go.mod
 	_ "gopkg.in/yaml.v2"
 )
 
