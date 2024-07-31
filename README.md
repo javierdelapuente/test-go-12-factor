@@ -12,3 +12,17 @@ Simple project written in Go, with the next endpoints:
  - /config/<config_name>
  - /sleep
   
+Regular **Markdown** here.
+
+<!--
+@startuml firstDiagram
+
+Alice -> Bob: Hello
+Bob -> Alice: Hi!
+	
+@enduml
+-->
+
+![](firstDiagram.svg)
+
+Some more markdown.
